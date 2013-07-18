@@ -28,7 +28,7 @@ class EmailModelBackend(object):
         response = json.loads(r.text)
 
         if response['success']:
-            data = response['data']
+            data = json.dumps(response['data'])
             user, created = User.objects.get_or_create(username=username)
             user.is_staff = True
             user.save()
