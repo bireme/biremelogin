@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.db import models
 from django.db.models.signals import post_save
-import json
+import simplejson
 
 class Profile(models.Model):
 
@@ -19,7 +19,13 @@ class Profile(models.Model):
 
     data = models.TextField(_("data"), null=True, blank=True)
     user = models.OneToOneField(User, verbose_name="user") # allow extension of default django User
-        
+
+    def get_attribute(self, attr):
+        user_data = simplejson.loads(self.data)
+
+        return user_data.get(attr)
+
+
 
 # creates automatically and profile
 def create_profile(sender, instance, created, **kwargs):
