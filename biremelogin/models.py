@@ -21,10 +21,13 @@ class Profile(models.Model):
     user = models.OneToOneField(User, verbose_name="user") # allow extension of default django User
 
     def get_attribute(self, attr):
-        user_data = simplejson.loads(self.data)
+        data_attribute = ''
+        if self.data:
+            user_data = simplejson.loads(self.data)
+            if user_data:
+                data_attribute = user_data.get(attr)
 
-        return user_data.get(attr)
-
+        return data_attribute
 
 
 # creates automatically and profile
